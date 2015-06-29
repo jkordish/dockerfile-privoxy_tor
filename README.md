@@ -44,3 +44,11 @@ osx
 8. Change browser proxy setting to the output of the command:
 
         $ echo $(boot2docker ip):8118
+
+9. teardown once finished:
+
+        $ docker kill tor
+
+        $ docker rm tor
+
+        $ boot2docker down
