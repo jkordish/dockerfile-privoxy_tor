@@ -21,6 +21,8 @@ osx
 
         $ boot2docker up
 
+        $ eval "$(boot2docker shellinit)"
+
 5. Checkout and build docker image
 
         $ git clone https://github.com/jkordish/dockerfile-privoxy_tor.git
@@ -31,12 +33,14 @@ osx
 
 6. Start up the tor/privoxy container
 
-        $ docker run tor
+        $ docker run --name tor -p 8118:8118 -d tor
 
-7. Modify the boot2docker-vm to do port forwarding
+7. Test it out
 
-        If boot2docker-vm is running
-        $ VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port8118,tcp,,8118,,8118";
+        $ docker exec tor curl -skx localhost:8118 icanhazip.com
 
-        If boot2docker-vm is **not** running
-        $ VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port8118,tcp,,8118,,8118";
+        $ curl -skx $(boot2docker ip):8118 icanhazip.com
+
+8. Change browser proxy setting to the output of the command:
+
+        $ echo $(boot2docker ip):8118
