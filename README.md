@@ -1,7 +1,10 @@
 # dockerfile-privoxy_tor
-Dockerfile for creating a privoxy and tor proxy
+Dockerfile for creating a privoxy proxy utilizing tor.
 
-osx
+Not sure why other than I thought it would be a fun exercise. Perhaps it will
+be useful for someone else.
+
+osx boot2docker
 ---
 1. Install Homebrew
 
@@ -52,3 +55,47 @@ osx
         $ docker rm tor
 
         $ boot2docker down
+
+osx boot2docker-xhyve
+---
+
+Simliar to the boo2docker above but this uses the [xhyve](https://github.com/mist64/xhyve).
+
+This particuliar project is via the awesome [boot2docker-xhyve](https://github.com/ailispaw/boot2docker-xhyve)
+
+1. Install xhyve
+
+        $ git clone https://github.com/mist64/xhyve
+        $ cd xhyve
+        $ make
+        $ cp build/xhyve /usr/local/bin/ # You may need sudo.
+
+2. Install boot2docker-xhyve
+
+        $ git clone https://github.com/ailispaw/boot2docker-xhyve
+        $ cd boot2docker-xhyve
+        $ make
+
+3. Boot it up
+
+        $ sudo ./xhyverun.sh
+
+4. Login using the user **docker**
+
+5. Get the ip address of eth0
+
+        $ ip a
+
+5. Checkout and build docker image
+
+        $ git clone https://github.com/jkordish/dockerfile-privoxy_tor.git
+
+        $ cd dockerfile-privoxy_tor
+
+        $ docker build -t tor .
+
+6. Start up the tor/privoxy container
+
+        $ docker run --name tor -p 8118:8118 -d tor
+
+7.
